@@ -10,14 +10,13 @@ export const YelboruLogo: React.FC<YelboruLogoProps> = ({
   showSubtext = false,
 }) => {
   return (
-    <div className={`inline-flex items-center gap-3.5 select-none ${className}`}>
-      <div className="flex h-9 w-9 items-center justify-center bg-[#d9d0bf] p-1">
-        <img
-          src="./logo-mark-dark.png"
-          alt="Yelbörü Logo"
-          className="h-full w-full object-contain"
-        />
-      </div>
+    <div className={`inline-flex items-center gap-3 select-none ${className}`}>
+      <img
+        src="./logo-mark-sand.png"
+        alt="Yelbörü Logo"
+        decoding="async"
+        className="h-9 w-9 shrink-0 object-contain"
+      />
       <div className="flex flex-col leading-none">
         <span className="font-display text-sm font-medium tracking-[0.26em] text-[#ece6db]">
           YELBÖRÜ

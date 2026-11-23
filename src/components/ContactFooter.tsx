@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Send, ArrowUpRight, Check } from 'lucide-react';
+import { Send, ArrowUpRight, ArrowUp, Check } from 'lucide-react';
 import { siteData, t } from '../data/siteData';
 import { useLanguage } from '../context/LanguageContext';
 import { YelboruLogo } from './YelboruLogo';
@@ -39,11 +39,11 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ preselectedSubject
 
   return (
     <div className="border-t border-[#d9d0bf]/15 bg-[#000000]">
-      <section id="iletisim" className="py-28 sm:py-36">
+      <section id="iletisim" className="py-24 sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
-            <div className="grid gap-16 lg:grid-cols-12">
-              {/* Left Column: Open Contact Directory */}
+            <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
+              {/* Left Column: Pared Down to 3 Essentials (Primary Email, Short Location, Socials) */}
               <div className="flex flex-col justify-between lg:col-span-5">
                 <div>
                   <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#d9d0bf]/50">
@@ -52,37 +52,22 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ preselectedSubject
                   <h2 className="mt-4 font-display text-3xl font-medium leading-[1.1] tracking-[-0.03em] text-[#ece6db] sm:text-4xl lg:text-[44px]">
                     {t(siteData.contactSection.title, lang)}
                   </h2>
-                  <p className="mt-5 max-w-[58ch] text-[15px] leading-[1.7] text-[#d9d0bf]/70 sm:text-[16px]">
+                  <p className="mt-5 max-w-[44ch] text-[15px] leading-[1.7] text-[#d9d0bf]/70">
                     {t(siteData.contactSection.subtitle, lang)}
                   </p>
 
-                  <dl className="mt-12 divide-y divide-[#d9d0bf]/15 border-y border-[#d9d0bf]/15">
+                  <dl className="mt-10 divide-y divide-[#d9d0bf]/15 border-y border-[#d9d0bf]/15">
                     <div className="py-5">
                       <dt className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#d9d0bf]/45">
                         {lang === 'tr' ? 'E-Posta' : 'Email'}
                       </dt>
-                      <dd className="mt-2 space-y-1 text-sm">
+                      <dd className="mt-2">
                         <a
                           href={`mailto:${siteData.contactSection.info.email}`}
-                          className="block font-medium text-[#ece6db] transition-opacity hover:opacity-75"
+                          className="link-hairline inline-block pb-0.5 text-sm font-medium text-[#ece6db] transition-opacity duration-200 hover:opacity-85"
                         >
                           {siteData.contactSection.info.email}
                         </a>
-                        <a
-                          href={`mailto:${siteData.contactSection.info.sponsorEmail}`}
-                          className="block text-xs text-[#d9d0bf]/55 transition-colors hover:text-[#ece6db]"
-                        >
-                          {siteData.contactSection.info.sponsorEmail}
-                        </a>
-                      </dd>
-                    </div>
-
-                    <div className="py-5">
-                      <dt className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#d9d0bf]/45">
-                        {lang === 'tr' ? 'Topluluk' : 'Organization'}
-                      </dt>
-                      <dd className="mt-2 text-sm text-[#ece6db]">
-                        {t(siteData.contactSection.info.university, lang)}
                       </dd>
                     </div>
 
@@ -90,11 +75,8 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ preselectedSubject
                       <dt className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#d9d0bf]/45">
                         {lang === 'tr' ? 'Konum' : 'Location'}
                       </dt>
-                      <dd className="mt-2 text-sm leading-[1.65] text-[#d9d0bf]/70">
-                        {t(siteData.contactSection.info.location, lang)}
-                      </dd>
-                      <dd className="mt-1.5 font-mono tabular-nums text-[11px] text-[#d9d0bf]/45">
-                        {siteData.contactSection.info.coordinates}
+                      <dd className="mt-2 text-sm text-[#d9d0bf]/80">
+                        {t(siteData.contactSection.info.shortLocation, lang)}
                       </dd>
                     </div>
                   </dl>
@@ -116,7 +98,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ preselectedSubject
                 </div>
               </div>
 
-              {/* Right Column: Minimalist Underline Form */}
+              {/* Right Column: Clean Minimalist Underline Form */}
               <div className="lg:col-span-7 lg:border-l lg:border-[#d9d0bf]/15 lg:pl-16">
                 {submitted ? (
                   <div className="flex h-full flex-col justify-center py-12">
@@ -134,13 +116,13 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ preselectedSubject
                     <button
                       type="button"
                       onClick={resetForm}
-                      className="mt-8 w-fit rounded-none border border-[#d9d0bf]/35 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.16em] text-[#ece6db] transition-colors hover:bg-[#d9d0bf] hover:text-[#000000] cursor-pointer"
+                      className="mt-8 w-fit rounded-none border border-[#d9d0bf]/35 px-5 py-2.5 text-xs font-medium uppercase tracking-[0.16em] text-[#ece6db] transition-colors duration-200 hover:bg-[#d9d0bf] hover:text-[#000000] cursor-pointer"
                     >
                       {lang === 'tr' ? 'Yeni Mesaj' : 'New Message'}
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-9">
+                  <form onSubmit={handleSubmit} className="space-y-8">
                     <div className="grid gap-8 sm:grid-cols-2">
                       <div>
                         <label
@@ -191,7 +173,7 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ preselectedSubject
                               key={opt.value}
                               type="button"
                               onClick={() => setSubject(opt.value as ContactSubjectValue)}
-                              className={`px-4 py-3 text-xs font-medium transition-colors cursor-pointer ${
+                              className={`px-4 py-3 text-xs font-medium transition-colors duration-200 cursor-pointer ${
                                 selected
                                   ? 'bg-[#d9d0bf] text-[#000000] font-semibold'
                                   : 'bg-[#000000] text-[#d9d0bf]/65 hover:text-[#ece6db]'
@@ -226,18 +208,13 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ preselectedSubject
                       />
                     </div>
 
-                    <div className="flex flex-col items-start justify-between gap-4 pt-2 sm:flex-row sm:items-center">
-                      <p className="text-xs text-[#d9d0bf]/45">
-                        {lang === 'tr'
-                          ? 'Ortalama yanıt süresi: 24 saat'
-                          : 'Average response time: 24h'}
-                      </p>
+                    <div className="flex justify-end pt-2">
                       <button
                         type="submit"
-                        className="inline-flex w-full items-center justify-center gap-2.5 rounded-none bg-[#d9d0bf] px-8 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#000000] transition-colors hover:bg-[#ece6db] cursor-pointer sm:w-auto"
+                        className="group inline-flex w-full items-center justify-center gap-2.5 rounded-none bg-[#d9d0bf] px-8 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-[#000000] transition-colors duration-200 hover:bg-[#ece6db] cursor-pointer sm:w-auto"
                       >
                         <span>{lang === 'tr' ? 'Mesajı Gönder' : 'Send Message'}</span>
-                        <Send className="h-3.5 w-3.5" />
+                        <Send className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-[3px]" />
                       </button>
                     </div>
                   </form>
@@ -248,8 +225,8 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ preselectedSubject
         </div>
       </section>
 
-      {/* Editorial Footer */}
-      <footer className="border-t border-[#d9d0bf]/15 bg-[#000000] py-12">
+      {/* Editorial Footer + Monumental Closing Brand Signature */}
+      <footer className="overflow-hidden border-t border-[#d9d0bf]/15 bg-[#000000] pt-14 pb-6">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
             <YelboruLogo showSubtext />
@@ -267,9 +244,27 @@ export const ContactFooter: React.FC<ContactFooterProps> = ({ preselectedSubject
             </nav>
           </div>
 
-          <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-[#d9d0bf]/12 pt-6 text-xs text-[#d9d0bf]/45 sm:flex-row sm:items-center">
+          <div className="mt-10 flex flex-col items-start justify-between gap-4 border-t border-[#d9d0bf]/12 pt-6 text-xs text-[#d9d0bf]/45 sm:flex-row sm:items-center">
             <span>{t(siteData.footer.copyright, lang)}</span>
-            <span>{t(siteData.footer.tagline, lang)}</span>
+
+            <div className="flex items-center gap-6">
+              <span className="hidden sm:inline">{t(siteData.footer.tagline, lang)}</span>
+              <button
+                type="button"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="group link-hairline inline-flex items-center gap-1.5 pb-0.5 text-[11px] font-medium uppercase tracking-[0.18em] text-[#d9d0bf]/65 transition-colors duration-200 hover:text-[#ece6db] cursor-pointer"
+              >
+                <span>{lang === 'tr' ? 'Yukarı Çık' : 'Back to Top'}</span>
+                <ArrowUp className="h-3 w-3 transition-transform duration-200 group-hover:-translate-y-[2px]" />
+              </button>
+            </div>
+          </div>
+
+          {/* Monumental Low-Opacity Brand Wordmark */}
+          <div aria-hidden="true" className="mt-12 select-none text-center sm:mt-16">
+            <span className="block font-display text-[15vw] font-medium leading-[0.82] tracking-[0.12em] text-[#d9d0bf]/[0.06] sm:text-[13vw] lg:text-[148px]">
+              YELBÖRÜ
+            </span>
           </div>
         </div>
       </footer>

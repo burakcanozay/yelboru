@@ -37,7 +37,7 @@ export const ProjectsSection: React.FC = () => {
   return (
     <section
       id="projeler"
-      className="border-t border-[#d9d0bf]/15 bg-[#000000] py-28 sm:py-36"
+      className="border-t border-[#d9d0bf]/15 bg-[#070706] py-28 sm:py-36"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <ScrollReveal>
@@ -55,7 +55,7 @@ export const ProjectsSection: React.FC = () => {
             <div
               role="tablist"
               aria-label="Hava Aracı Seçimi"
-              className="flex flex-wrap gap-8"
+              className="no-scrollbar flex max-w-full flex-nowrap gap-7 overflow-x-auto whitespace-nowrap sm:gap-8"
             >
               {siteData.aircraft.map((vehicle) => {
                 const isSelected = vehicle.id === activeAircraft.id;
@@ -67,7 +67,7 @@ export const ProjectsSection: React.FC = () => {
                     type="button"
                     aria-selected={isSelected}
                     onClick={() => setSelectedId(vehicle.id)}
-                    className={`relative pb-2 text-xs font-medium uppercase tracking-[0.18em] transition-colors duration-200 cursor-pointer ${
+                    className={`relative shrink-0 pb-2 text-xs font-medium uppercase tracking-[0.18em] transition-colors duration-200 cursor-pointer ${
                       isSelected
                         ? 'text-[#ece6db]'
                         : 'text-[#d9d0bf]/45 hover:text-[#d9d0bf]'

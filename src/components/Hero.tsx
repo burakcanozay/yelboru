@@ -1,27 +1,50 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowRight, ArrowDown } from 'lucide-react';
 import { siteData, t } from '../data/siteData';
 import { useLanguage } from '../context/LanguageContext';
 
 interface HeroProps {
+  ready: boolean;
   onExploreProjects: () => void;
   onJoinOrSponsor: () => void;
 }
 
-export const Hero: React.FC<HeroProps> = ({ onExploreProjects, onJoinOrSponsor }) => {
+export const Hero: React.FC<HeroProps> = ({ ready, onExploreProjects, onJoinOrSponsor }) => {
   const { lang } = useLanguage();
   const [mediaFailed, setMediaFailed] = useState(false);
+  const [entered, setEntered] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!ready) {
+      setEntered(false);
+      return;
+    }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setEntered(true);
+      return;
+    }
+    const rafId = window.requestAnimationFrame(() => setEntered(true));
+    return () => window.cancelAnimationFrame(rafId);
+  }, [ready]);
 
   const backgroundVideo = siteData.hero.backgroundVideo?.trim();
   const backgroundImage = siteData.hero.backgroundImage?.trim();
   const hasRealMedia = !mediaFailed && Boolean(backgroundVideo || backgroundImage);
 
+  const revealStyle = (delayMs: number): React.CSSProperties => ({
+    transitionDuration: '700ms',
+    transitionTimingFunction: 'cubic-bezier(0.22, 1, 0.36, 1)',
+    transitionDelay: `${delayMs}ms`,
+    transform: entered ? 'translate3d(0, 0, 0)' : 'translate3d(0, 8px, 0)',
+    opacity: entered ? 1 : 0,
+  });
+
   return (
     <section
       id="hero"
-      className="relative flex min-h-screen flex-col justify-between overflow-hidden bg-[#000000] pt-16"
+      className="relative flex min-h-screen flex-col justify-between overflow-hidden bg-[#000000] pt-[72px]"
     >
-      {/* Background Layer 1: Real Studio VTOL Photo / Video with Automatic Fallback */}
+      {/* Background Layer 1: Optional Studio VTOL Photo / Video with Automatic Fallback */}
       {hasRealMedia && backgroundVideo ? (
         <video
           autoPlay
@@ -45,7 +68,7 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects, onJoinOrSponsor }
         />
       ) : null}
 
-      {/* Background Layer 2: Top & Bottom Pure #000000 Scrim Gradient for Crisp Legibility */}
+      {/* Background Layer 2: Top & Bottom Pure #000000 Scrim Gradient */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
@@ -71,26 +94,38 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects, onJoinOrSponsor }
         </div>
       )}
 
-      {/* Main Cinematic Full-Viewport Stage */}
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-4 py-20 sm:px-6 lg:px-8">
+      {/* Main Cinematic Full-Viewport Stage — Synchronized Gently After Splash */}
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-4 py-16 sm:px-6 lg:px-8">
         <div className="max-w-4xl">
-          <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#d9d0bf]/50">
+          <p
+            style={revealStyle(0)}
+            className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#d9d0bf]/50 transition-[opacity,transform] will-change-[opacity,transform]"
+          >
             {t(siteData.brand.tagline, lang)}
           </p>
 
-          <h1 className="mt-8 font-display text-5xl font-medium leading-[0.98] tracking-[-0.04em] text-[#ece6db] sm:text-6xl lg:text-[76px]">
+          <h1
+            style={revealStyle(80)}
+            className="mt-8 font-display text-5xl font-medium leading-[0.98] tracking-[-0.04em] text-[#ece6db] transition-[opacity,transform] will-change-[opacity,transform] sm:text-6xl lg:text-[76px]"
+          >
             <span className="block">{t(siteData.hero.headlineLine1, lang)}</span>
             <span className="mt-1.5 block text-[#d9d0bf]">
               {t(siteData.hero.headlineLine2, lang)}
             </span>
           </h1>
 
-          <p className="mt-9 max-w-[58ch] text-[15px] font-normal leading-[1.7] text-[#d9d0bf]/70 sm:text-[16px]">
+          <p
+            style={revealStyle(170)}
+            className="mt-9 max-w-[58ch] text-[15px] font-normal leading-[1.7] text-[#d9d0bf]/70 transition-[opacity,transform] will-change-[opacity,transform] sm:text-[16px]"
+          >
             {t(siteData.hero.description, lang)}
           </p>
 
           {/* Calm Dual Actions */}
-          <div className="mt-12 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:gap-10">
+          <div
+            style={revealStyle(250)}
+            className="mt-12 flex flex-col items-start gap-6 transition-[opacity,transform] will-change-[opacity,transform] sm:flex-row sm:items-center sm:gap-10"
+          >
             <button
               type="button"
               onClick={onExploreProjects}
@@ -112,30 +147,22 @@ export const Hero: React.FC<HeroProps> = ({ onExploreProjects, onJoinOrSponsor }
         </div>
       </div>
 
-      {/* Bottom 1px Architectural Hero Footer Bar */}
-      <div className="relative z-10 border-t border-[#d9d0bf]/15">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
-          <span className="font-mono tabular-nums text-[11px] uppercase tracking-[0.16em] text-[#d9d0bf]/45">
-            {t(siteData.hero.locationTag, lang)}
-          </span>
+      {/* Borderless Bottom Edge Anchors */}
+      <div
+        style={revealStyle(320)}
+        className="relative z-10 mx-auto flex w-full max-w-7xl items-center justify-between px-4 pb-8 pt-2 transition-[opacity,transform] will-change-[opacity,transform] sm:px-6 lg:px-8"
+      >
+        <span className="font-mono tabular-nums text-[11px] uppercase tracking-[0.16em] text-[#d9d0bf]/40">
+          {t(siteData.hero.locationTag, lang)}
+        </span>
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-1 text-xs text-[#d9d0bf]/70">
-            {siteData.hero.capabilities.map((cap, idx) => (
-              <React.Fragment key={idx}>
-                {idx > 0 && <span className="text-[#d9d0bf]/25">/</span>}
-                <span>{t(cap, lang)}</span>
-              </React.Fragment>
-            ))}
-          </div>
-
-          <a
-            href="#metrikler"
-            className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.2em] text-[#d9d0bf]/55 transition-colors hover:text-[#ece6db]"
-          >
-            <span>{t(siteData.hero.scrollLabel, lang)}</span>
-            <ArrowDown className="h-3.5 w-3.5" />
-          </a>
-        </div>
+        <a
+          href="#metrikler"
+          className="link-hairline inline-flex items-center gap-2 pb-0.5 text-[11px] font-medium uppercase tracking-[0.2em] text-[#d9d0bf]/55 transition-colors duration-200 hover:text-[#ece6db]"
+        >
+          <span>{t(siteData.hero.scrollLabel, lang)}</span>
+          <ArrowDown className="h-3.5 w-3.5" />
+        </a>
       </div>
     </section>
   );

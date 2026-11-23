@@ -41,7 +41,7 @@ export const TeamSection: React.FC = () => {
             <div
               role="tablist"
               aria-label="Ekip Alt Birim Filtresi"
-              className="flex flex-wrap gap-6 border-b border-[#d9d0bf]/15"
+              className="no-scrollbar flex max-w-full flex-nowrap gap-6 overflow-x-auto whitespace-nowrap border-b border-[#d9d0bf]/15"
             >
               {siteData.teamSection.departments.map((dept) => {
                 const isSelected = activeDept === dept.key;
@@ -57,7 +57,7 @@ export const TeamSection: React.FC = () => {
                     role="tab"
                     aria-selected={isSelected}
                     onClick={() => setActiveDept(dept.key)}
-                    className={`relative pb-3 text-xs font-medium uppercase tracking-[0.16em] transition-colors duration-200 cursor-pointer ${
+                    className={`relative shrink-0 pb-3 text-xs font-medium uppercase tracking-[0.16em] transition-colors duration-200 cursor-pointer ${
                       isSelected
                         ? 'text-[#ece6db]'
                         : 'text-[#d9d0bf]/45 hover:text-[#d9d0bf]'

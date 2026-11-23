@@ -146,6 +146,16 @@ export const siteData = {
     callsign: 'YLB-HQ // 41.0082°N 28.9784°E',
   },
 
+  /** Üst menüde gösterilen 5 temel bağlantı */
+  navNavigation: [
+    { id: 'hakkimizda', label: { tr: 'Hakkımızda', en: 'About' } },
+    { id: 'projeler', label: { tr: 'Projeler', en: 'Projects' } },
+    { id: 'teknoloji', label: { tr: 'Teknoloji', en: 'Technology' } },
+    { id: 'ekip', label: { tr: 'Ekip', en: 'Team' } },
+    { id: 'iletisim', label: { tr: 'İletişim', en: 'Contact' } },
+  ] as NavItem[],
+
+  /** Footer menüsünde gösterilen tüm sayfa bağlantıları (Testler ve Sponsorlar dahil) */
   navigation: [
     { id: 'hakkimizda', label: { tr: 'Hakkımızda', en: 'About' } },
     { id: 'projeler', label: { tr: 'Projeler', en: 'Projects' } },
@@ -871,6 +881,10 @@ export const siteData = {
     info: {
       email: 'iletisim@yelboru.org',
       sponsorEmail: 'sponsorluk@yelboru.org',
+      shortLocation: {
+        tr: 'İstanbul, Türkiye',
+        en: 'Istanbul, Türkiye',
+      },
       location: {
         tr: 'Uçak ve Uzay Bilimleri Fakültesi, İHA & Kompozit Atölyesi B-14, İstanbul / Türkiye',
         en: 'Faculty of Aeronautics & Astronautics, UAV & Composites Lab B-14, Istanbul / Türkiye',

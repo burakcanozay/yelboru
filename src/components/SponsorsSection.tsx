@@ -8,37 +8,15 @@ interface SponsorsSectionProps {
   onScheduleSponsorCall: () => void;
 }
 
-const SponsorCell: React.FC<{ sponsor: SponsorItem; tier: 'main' | 'gold' | 'supporter' }> = ({
-  sponsor,
-  tier,
-}) => {
+const MainSponsorCell: React.FC<{ sponsor: SponsorItem }> = ({ sponsor }) => {
   const { lang } = useLanguage();
   const [logoFailed, setLogoFailed] = useState(false);
-
-  const layout = {
-    main: 'px-8 py-14 sm:px-12 sm:py-16',
-    gold: 'px-6 py-9 sm:px-8',
-    supporter: 'px-5 py-6',
-  }[tier];
-
-  const nameScale = {
-    main: 'text-2xl sm:text-4xl font-medium tracking-[-0.025em] text-[#ece6db]',
-    gold: 'text-base sm:text-lg font-medium tracking-[-0.01em] text-[#ece6db]',
-    supporter: 'text-xs sm:text-sm font-medium tracking-[0.1em] text-[#d9d0bf]',
-  }[tier];
-
-  const logoHeight = {
-    main: 'h-10 sm:h-12',
-    gold: 'h-7 sm:h-8',
-    supporter: 'h-6',
-  }[tier];
-
   const hasLogo = Boolean(sponsor.logoUrl?.trim()) && !logoFailed;
 
   return (
     <a
       href={sponsor.url}
-      className={`group flex flex-col justify-between bg-[#000000] transition-colors duration-200 hover:bg-[#d9d0bf]/[0.03] ${layout}`}
+      className="group flex flex-col justify-between bg-[#070706] px-8 py-14 transition-colors duration-200 hover:bg-[#d9d0bf]/[0.03] sm:px-12 sm:py-16"
     >
       {hasLogo && sponsor.logoUrl ? (
         <div className="flex items-center">
@@ -48,20 +26,74 @@ const SponsorCell: React.FC<{ sponsor: SponsorItem; tier: 'main' | 'gold' | 'sup
             loading="lazy"
             decoding="async"
             onError={() => setLogoFailed(true)}
-            className={`sponsor-logo-mono w-auto max-w-[200px] object-contain opacity-75 group-hover:opacity-100 ${logoHeight}`}
+            className="sponsor-logo-mono h-10 w-auto max-w-[220px] object-contain opacity-75 group-hover:opacity-100 sm:h-12"
           />
         </div>
       ) : (
-        <p className={`font-display ${nameScale}`}>{sponsor.name}</p>
+        <p className="font-display text-2xl font-medium tracking-[-0.025em] text-[#ece6db] sm:text-4xl">
+          {sponsor.name}
+        </p>
       )}
+      <p className="mt-3 text-sm text-[#d9d0bf]/45">{t(sponsor.sector, lang)}</p>
+    </a>
+  );
+};
 
-      <p
-        className={`mt-3 text-[#d9d0bf]/45 ${
-          tier === 'main' ? 'text-sm' : 'text-[11px]'
-        }`}
-      >
-        {t(sponsor.sector, lang)}
-      </p>
+const GoldSponsorItem: React.FC<{ sponsor: SponsorItem; index: number }> = ({
+  sponsor,
+  index,
+}) => {
+  const { lang } = useLanguage();
+  const [logoFailed, setLogoFailed] = useState(false);
+  const hasLogo = Boolean(sponsor.logoUrl?.trim()) && !logoFailed;
+
+  return (
+    <a
+      href={sponsor.url}
+      className={`group flex flex-col justify-between py-7 transition-colors duration-200 ${
+        index === 0 ? 'sm:pr-8' : index === 1 ? 'sm:px-8' : 'sm:pl-8'
+      }`}
+    >
+      {hasLogo && sponsor.logoUrl ? (
+        <img
+          src={sponsor.logoUrl}
+          alt={sponsor.name}
+          loading="lazy"
+          decoding="async"
+          onError={() => setLogoFailed(true)}
+          className="sponsor-logo-mono h-7 w-auto max-w-[160px] object-contain opacity-75 group-hover:opacity-100"
+        />
+      ) : (
+        <p className="font-display text-base font-medium tracking-[-0.01em] text-[#ece6db] transition-opacity duration-200 group-hover:opacity-80 sm:text-lg">
+          {sponsor.name}
+        </p>
+      )}
+      <p className="mt-2 text-xs text-[#d9d0bf]/45">{t(sponsor.sector, lang)}</p>
+    </a>
+  );
+};
+
+const SupporterInlineItem: React.FC<{ sponsor: SponsorItem }> = ({ sponsor }) => {
+  const [logoFailed, setLogoFailed] = useState(false);
+  const hasLogo = Boolean(sponsor.logoUrl?.trim()) && !logoFailed;
+
+  return (
+    <a
+      href={sponsor.url}
+      className="group link-hairline inline-flex items-center pb-1 text-xs font-medium uppercase tracking-[0.14em] text-[#d9d0bf]/60 transition-colors duration-200 hover:text-[#ece6db]"
+    >
+      {hasLogo && sponsor.logoUrl ? (
+        <img
+          src={sponsor.logoUrl}
+          alt={sponsor.name}
+          loading="lazy"
+          decoding="async"
+          onError={() => setLogoFailed(true)}
+          className="sponsor-logo-mono h-5 w-auto max-w-[120px] object-contain opacity-70 group-hover:opacity-100"
+        />
+      ) : (
+        <span>{sponsor.name}</span>
+      )}
     </a>
   );
 };
@@ -114,7 +146,7 @@ export const SponsorsSection: React.FC<SponsorsSectionProps> = ({ onScheduleSpon
   return (
     <section
       id="sponsorlar"
-      className="border-t border-[#d9d0bf]/15 bg-[#000000] py-28 sm:py-36"
+      className="border-t border-[#d9d0bf]/15 bg-[#070706] py-28 sm:py-36"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <ScrollReveal>
@@ -128,6 +160,7 @@ export const SponsorsSection: React.FC<SponsorsSectionProps> = ({ onScheduleSpon
           </div>
         </ScrollReveal>
 
+        {/* Tier 1: Exclusive Architectural 2-Column Main Sponsor Grid */}
         <ScrollReveal delayMs={60}>
           <div className="mt-16">
             <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#d9d0bf]/50">
@@ -135,33 +168,35 @@ export const SponsorsSection: React.FC<SponsorsSectionProps> = ({ onScheduleSpon
             </p>
             <div className="grid grid-cols-1 gap-px border border-[#d9d0bf]/15 bg-[#d9d0bf]/15 md:grid-cols-2">
               {mainSponsors.map((sp) => (
-                <SponsorCell key={sp.id} sponsor={sp} tier="main" />
+                <MainSponsorCell key={sp.id} sponsor={sp} />
               ))}
             </div>
           </div>
         </ScrollReveal>
 
+        {/* Tier 2: Open Horizontal Hairline Strip for Gold Sponsors */}
         <ScrollReveal delayMs={100}>
-          <div className="mt-10">
-            <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#d9d0bf]/45">
+          <div className="mt-14">
+            <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.2em] text-[#d9d0bf]/45">
               {t(siteData.sponsorsSection.tiers.gold, lang)}
             </p>
-            <div className="grid grid-cols-1 gap-px border border-[#d9d0bf]/15 bg-[#d9d0bf]/15 sm:grid-cols-3">
-              {goldSponsors.map((sp) => (
-                <SponsorCell key={sp.id} sponsor={sp} tier="gold" />
+            <div className="grid grid-cols-1 divide-y divide-[#d9d0bf]/15 border-y border-[#d9d0bf]/15 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+              {goldSponsors.map((sp, idx) => (
+                <GoldSponsorItem key={sp.id} sponsor={sp} index={idx} />
               ))}
             </div>
           </div>
         </ScrollReveal>
 
+        {/* Tier 3: Quiet Inline Typographic Roll for Supporters */}
         <ScrollReveal delayMs={140}>
-          <div className="mt-10">
-            <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.2em] text-[#d9d0bf]/45">
+          <div className="mt-12 flex flex-col gap-5 sm:flex-row sm:items-baseline sm:justify-between">
+            <p className="shrink-0 text-[11px] font-medium uppercase tracking-[0.2em] text-[#d9d0bf]/40">
               {t(siteData.sponsorsSection.tiers.supporter, lang)}
             </p>
-            <div className="grid grid-cols-1 gap-px border border-[#d9d0bf]/15 bg-[#d9d0bf]/15 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="flex flex-wrap items-center gap-x-9 gap-y-3">
               {supporters.map((sp) => (
-                <SponsorCell key={sp.id} sponsor={sp} tier="supporter" />
+                <SupporterInlineItem key={sp.id} sponsor={sp} />
               ))}
             </div>
           </div>

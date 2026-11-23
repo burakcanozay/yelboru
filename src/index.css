@@ -28,6 +28,26 @@
     text-wrap: balance;
   }
 
+  /* Unified sharp keyboard focus ring across all interactive elements */
+  :is(a, button, [role="button"], [role="tab"]):focus-visible {
+    outline: 1px solid rgba(217, 208, 191, 0.75);
+    outline-offset: 3px;
+  }
+
+  /* Prevent Chrome/Edge/Safari autofill white/blue box on dark underline inputs */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus {
+    -webkit-text-fill-color: #ece6db !important;
+    -webkit-box-shadow: 0 0 0 1000px #000000 inset !important;
+    box-shadow: 0 0 0 1000px #000000 inset !important;
+    caret-color: #ece6db;
+    transition: background-color 9999s ease-in-out 0s;
+  }
+
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -79,6 +99,15 @@
 .sponsor-logo-mono {
   filter: brightness(0) invert(0.86) sepia(0.12) saturate(0.45);
   transition: opacity 250ms ease;
+}
+
+/* Hide scrollbars cleanly on single-row horizontal mobile tab strips */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 /* Left-to-right 1px hairline underline micro-interaction (GPU transform only) */

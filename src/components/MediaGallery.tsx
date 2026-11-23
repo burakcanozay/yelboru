@@ -148,7 +148,7 @@ export const MediaGallery: React.FC = () => {
               </h2>
             </div>
 
-            <div className="flex gap-6 border-b border-[#d9d0bf]/15">
+            <div className="no-scrollbar flex max-w-full flex-nowrap gap-6 overflow-x-auto whitespace-nowrap border-b border-[#d9d0bf]/15">
               {(
                 [
                   { key: 'all', tr: 'Tümü', en: 'All' },
@@ -162,7 +162,7 @@ export const MediaGallery: React.FC = () => {
                     key={tab.key}
                     type="button"
                     onClick={() => setFilter(tab.key)}
-                    className={`relative pb-3 text-xs font-medium uppercase tracking-[0.16em] transition-colors duration-200 cursor-pointer ${
+                    className={`relative shrink-0 pb-3 text-xs font-medium uppercase tracking-[0.16em] transition-colors duration-200 cursor-pointer ${
                       isSelected
                         ? 'text-[#ece6db]'
                         : 'text-[#d9d0bf]/45 hover:text-[#d9d0bf]'
